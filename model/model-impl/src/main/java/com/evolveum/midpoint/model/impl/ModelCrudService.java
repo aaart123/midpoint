@@ -129,8 +129,16 @@ public class ModelCrudService {
 
 		PrismObject<ShadowType> oldShadow = null;
 		LOGGER.trace("resolving old object");
-		if (!StringUtils.isEmpty(oldShadowOid)){
-			oldShadow = getObject(ShadowType.class, oldShadowOid, SelectorOptions.createCollection(GetOperationOptions.createDoNotDiscovery()), task, parentResult);
+		if (!StringUtils.isEmpty(oldShadowOid)) {
+			try {
+				oldShadow = getObject(ShadowType.class, oldShadowOid,
+						SelectorOptions.createCollection(GetOperationOptions.createDoNotDiscovery()), task, parentResult);
+			} catch (Throwable t) {
+				// todo catch e.g. this one: "com.evolveum.midpoint.util.exception.SystemException: Error resolving object with oid 'd2f1265a-bfeb-4787-83c0-a264dadd2ddb': Resource does not support 'read' operation"
+				LOGGER.trace("old object couldn't be fetched, trying 'noFetch' option: {}", t.getMessage());
+				oldShadow = getObject(ShadowType.class, oldShadowOid,
+						SelectorOptions.createCollection(GetOperationOptions.createNoFetch()), task, parentResult);
+			}
 			eventDescription.setOldShadow(oldShadow);
 			LOGGER.trace("old object resolved to: {}", oldShadow.debugDump());
 		} else{
@@ -149,10 +157,10 @@ public class ModelCrudService {
 		eventDescription.setCurrentShadow(currentShadow);
 
 		ObjectDeltaType deltaType = changeDescription.getObjectDelta();
-		ObjectDelta delta = null;
+		ObjectDelta delta;
 
-		PrismObject<ShadowType> shadowToAdd = null;
-		if (deltaType != null){
+		PrismObject<ShadowType> shadowToAdd;
+		if (deltaType != null) {
 
 			delta = ObjectDelta.createEmptyDelta(ShadowType.class, deltaType.getOid(), prismContext, ChangeType.toChangeType(deltaType.getChangeType()));
 
@@ -178,11 +186,11 @@ public class ModelCrudService {
 				Collection<? extends ItemDelta> modifications = DeltaConvertor.toModifications(deltaType.getItemDelta(), prismContext.getSchemaRegistry().findObjectDefinitionByCompileTimeClass(ShadowType.class));
 				delta.getModifications().addAll(modifications);
 			}
+			Collection<ObjectDelta<? extends ObjectType>> deltas = new ArrayList<>();
+			deltas.add(delta);
+			ModelImplUtils.encrypt(deltas, protector, null, parentResult);
+			eventDescription.setDelta(delta);
 		}
-		Collection<ObjectDelta<? extends ObjectType>> deltas = new ArrayList<>();
-		deltas.add(delta);
-		ModelImplUtils.encrypt(deltas, protector, null, parentResult);
-		eventDescription.setDelta(delta);
 
 		eventDescription.setSourceChannel(changeDescription.getChannel());
 
