@@ -111,10 +111,10 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
+           <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxb2-maven-plugin</artifactId>
-                <version>2.3.1</version>
+                <version>2.4</version>
                 <executions>
                     <execution>
                         <id>xjc</id>
@@ -147,7 +147,52 @@
                         </filter>
                     </xjcSourceExcludeFilters>
                 </configuration>
+				<dependencies>
+    <dependency>
+        <groupId>org.glassfish.jaxb</groupId>
+        <artifactId>jaxb-xjc-jdk9</artifactId>
+        <version>2.3.0</version>
+    </dependency>
+    <dependency>
+        <groupId>javax.activation</groupId>
+        <artifactId>javax.activation-api</artifactId>
+        <version>1.2.0</version>
+    </dependency>
+</dependencies>
             </plugin>
+		<!-- 	<plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>exec-maven-plugin</artifactId>
+    <version>1.6.0</version>
+    <executions>
+        <execution>
+            <id>execute xjc</id>
+            <phase>generate-sources</phase>
+            <goals>
+                <goal>exec</goal>
+            </goals>
+            <configuration>
+                <executable>xjc</executable>
+                <longModulepath>false</longModulepath>
+                <arguments>
+					<argument>-d</argument>
+                    <argument>-catalog</argument>
+					<argument>${basedir}/src/compile/resources/catalog.xml</argument>
+					<argument>-nv</argument>
+					<argument>true</argument>
+					<argument>-verbose</argument>
+                    <argument>-b</argument>
+                    <argument>${project.basedir}/target/midpoint-schema/*/*/*/*/annotation-3.xsd</argument>
+					<argument>${project.basedir}/target/midpoint-schema/*/*/*/*/query-3.xsd</argument>
+					<argument>${project.basedir}/target/midpoint-schema/*/*/*/*/types-3.xsd</argument>
+					<argument>${project.basedir}/target/midpoint-schema/*/*/*/*/common-*.xsd</argument>
+					<argument>${project.basedir}/target/midpoint-schema/*/*/*/*/*/scripting-3.xsd</argument>
+					<argument>${project.basedir}/target/midpoint-schema/*/*/*/*/*/resource-schema-3.xsd</argument>
+                </arguments>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>-->
         </plugins>
     </build>
 </project>

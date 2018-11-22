@@ -66,6 +66,12 @@
 		<dependency>
 			<groupId>org.apache.santuario</groupId>
 			<artifactId>xmlsec</artifactId>
+			<exclusions>
+				<exclusion>
+                    <groupId>com.fasterxml.woodstox</groupId>
+                    <artifactId>woodstox-core</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
@@ -190,6 +196,10 @@
             <artifactId>test-ng</artifactId>
             <version>4.0-SNAPSHOT</version>
             <scope>test</scope>
+        </dependency>
+        <dependency> 
+        	<groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
         </dependency>
     </dependencies>
     <build>

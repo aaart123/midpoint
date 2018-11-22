@@ -277,8 +277,8 @@
 			<scope>provided</scope> 
 		</dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
 <!--             <version>4.8.2</version> -->
             <scope>test</scope>
         </dependency>

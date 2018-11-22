@@ -23,7 +23,7 @@
 	<!-- NOTE: no parent. We want this to be completely stand-alone. -->
 	<version>4.0-SNAPSHOT</version>
 	<properties>
-		<project.source.version>1.8</project.source.version>
+		<project.source.version>11</project.source.version>
     	<cxf.version>3.1.6</cxf.version>
 	</properties>
 	<organization>
@@ -149,10 +149,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>3.8.0</version>
                 <configuration>
                     <source>${project.source.version}</source>
-                    <target>${project.source.version}</target>
+					<target>${project.source.version}</target>
                     <fork>true</fork>
                     <meminitial>128m</meminitial>
                     <maxmem>768m</maxmem>
@@ -160,6 +160,13 @@
                     <showWarnings>true</showWarnings>
                     <!--verbose>true</verbose> <showWarnings>false</showWarnings -->
                 </configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.ow2.asm</groupId>
+						<artifactId>asm</artifactId>
+						<version>6.2</version>
+					</dependency>
+				</dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

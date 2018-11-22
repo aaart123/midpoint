@@ -16,7 +16,7 @@
 package com.evolveum.midpoint.util;
 
 import com.evolveum.midpoint.util.exception.SystemException;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import com.evolveum.midpoint.util.logging.Trace;
